@@ -15,6 +15,12 @@ router.get(
   authorizeRoles("admin", "freelancer", "client"),
   jobsControllers.getAllJobs
 );
+router.get(
+  "/:jobId",
+  auth,
+  authorizeRoles("admin", "freelancer", "client"),
+  jobsControllers.getJobsById
+);
 router.patch(
   "/:id",
   auth,

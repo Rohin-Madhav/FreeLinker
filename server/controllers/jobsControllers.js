@@ -39,6 +39,17 @@ exports.getAllJobs = async (req, res) => {
   }
 };
 
+exports.getJobsById = async (req, res) => {
+  try {
+    const { jobId } = req.params;
+
+    const job = await Jobs.findById(jobId);
+    res.status(200).json(job);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 exports.updateJobs = async (req, res) => {
   try {
     const { id } = req.params;
