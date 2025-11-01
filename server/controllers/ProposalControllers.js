@@ -1,18 +1,29 @@
+const mongoose = require("mongoose");
 const Proposal = require("../models/proposal");
 const Jobs = require("../models/jobs");
 
 exports.createProposal = async (req, res) => {
   try {
-    const { bidAmount, proposalText } = req.body;
+    const { bidAmount, proposalText, jobId } = req.body;
 
-    if (!bidAmount || !proposalText) {
-      return res.status(400).json({ message: "Missing required fields" });
+    if (!bidAmount || !proposalText || !jobId) {
+      return res.status(400).json({
+        message: "Missing required fields: bidAmount, proposalText, jobId",
+      });
     }
+
+    const job = await Jobs.findById(jobId).select("_id clientId");
+    if (!job) {
+      return res.status(404).json({ message: "Job not found" });
+    }
+
     const newProposal = new Proposal({
+      JobId: job._id,
       bidAmount,
       proposalText,
       freelancerId: req.user._id,
     });
+
     await newProposal.save();
     return res.status(201).json(newProposal);
   } catch (error) {
@@ -23,20 +34,28 @@ exports.createProposal = async (req, res) => {
 exports.getProposal = async (req, res) => {
   try {
     const { jobId } = req.params;
-    const { role } = req.user;
-
-    let query = {};
+    const { role, _id } = req.user;
+    const query = {};
 
     if (jobId) {
-      query.JobId = jobId;
+      query.JobId = new mongoose.Types.ObjectId(jobId);
     }
 
     if (role === "client") {
-      const jobs = await Jobs.find({ clientId: req.user._id });
-      const jobIds = jobs.map((job) => job._id);
-      query.JobId = { $in: jobIds };
+      const jobs = await Jobs.find({ clientId: _id }).select("_id");
+      const jobIds = jobs.map((job) => job._id.toString());
+
+      if (jobId) {
+        if (!jobIds.includes(jobId.toString())) {
+          return res
+            .status(403)
+            .json({ message: "Not authorized to view proposals for this job" });
+        }
+      } else {
+        query.JobId = { $in: jobIds };
+      }
     } else if (role === "freelancer") {
-      query.freelancerId = req.user._id;
+      query.freelancerId = new mongoose.Types.ObjectId(_id);
     }
 
     const proposals = await Proposal.find(query)
@@ -48,24 +67,63 @@ exports.getProposal = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
-
 exports.updateProposal = async (req, res) => {
   try {
     const { id } = req.params;
     const { status } = req.body;
-  
-    const updateStatus = await Proposal.findByIdAndUpdate(
+
+    const proposal = await Proposal.findById(id);
+    if (!proposal) {
+      return res.status(404).json({ message: "Proposal not found" });
+    }
+
+    const job = await Jobs.findById(proposal.JobId);
+    if (!job) {
+      return res.status(404).json({ message: "Job not found" });
+    }
+
+    if (job.clientId.toString() !== req.user._id && req.user.role !== "admin") {
+      return res
+        .status(403)
+        .json({ message: "Not authorized to update proposal" });
+    }
+
+    const updatedProposal = await Proposal.findByIdAndUpdate(
       id,
-      { status: status },
+      { status },
       { new: true, runValidators: true }
     );
 
-    if (!updateStatus) {
-      return res.status(404).json({ message: "Proposal not found" });
+    if (status === "accepted") {
+      await Proposal.updateMany(
+        { JobId: proposal.JobId, _id: { $ne: id } },
+        { status: "rejected" }
+      );
+
+      await Jobs.findByIdAndUpdate(proposal.JobId, {
+        assignedFreelancer: proposal.freelancerId,
+        status: "assigned",
+      });
     }
-    
-    return res.status(200).json(updateStatus);
+
+    res.status(200).json({
+      message: `Proposal ${status} successfully`,
+      proposal: updatedProposal,
+    });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
+
+exports.freelancerUpdateProposalStatus = async (req,res)=>{
+  try {
+    const {id} = req.params
+    const {status} = req.body;
+
+    
+    
+    
+  } catch (error) {
+    res.status(500).json({ message: error.message });           
+  }
+}

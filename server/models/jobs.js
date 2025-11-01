@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 
-
 const jobSchema = new mongoose.Schema({
   title: {
     type: String,
@@ -19,12 +18,17 @@ const jobSchema = new mongoose.Schema({
     min: 0,
   },
   deadline: {
-    type: String,
-    required: true,
+    type: Date,
   },
+  assignedFreelancer: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    default: null,
+  },
+
   status: {
     type: String,
-    enum: ["open", "assigned", "completed"],
+    enum: ["open", "assigned", "in-progress", "completed", "cancelled"],
     default: "open",
   },
   createdAt: {
