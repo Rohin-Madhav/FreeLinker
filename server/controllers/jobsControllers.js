@@ -83,3 +83,41 @@ exports.deleteJobs = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
+exports.updateStatus = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { status } = req.body;
+
+    if (!status) {
+      return res.status(400).json({ message: "Status is required." });
+    }
+
+    const job = await Jobs.findById(id);
+    if (!job) {
+      return res.status(404).json({ message: "Job not found." });
+    }
+
+    if (job.clientId.toString() !== req.user._id && req.user.role !== "admin") {
+      return res
+        .status(403)
+        .json({ message: "Not authorized to update this job." });
+    }
+
+    job.status = status;
+    await job.save();
+
+    if (status === "completed") {
+      await Proposal.updateOne(
+        { JobId: id, status: "in-progress" },
+        { status: "completed" }
+      );
+    }
+
+    return res.status(200).json({
+      message: `Job status updated to "${status}"`,
+      job,
+    });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};

@@ -33,5 +33,6 @@ router.delete(
   authorizeRoles("admin", "client"),
   jobsControllers.deleteJobs
 );
+router.patch("/:id/complete",auth,authorizeRoles("client"),jobsControllers.updateStatus)
 
 module.exports = router;

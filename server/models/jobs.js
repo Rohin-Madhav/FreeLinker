@@ -25,6 +25,19 @@ const jobSchema = new mongoose.Schema({
     ref: "User",
     default: null,
   },
+  paymentStatus: {
+    type: String,
+    enum: ["pending", "paid", "released", "failed"],
+    default: "pending",
+  },
+  paymentIntentId: {
+    type: String,
+    default: null,
+  },
+  amountPaid: {
+    type: Number,
+    default: 0,
+  },
 
   status: {
     type: String,

@@ -115,15 +115,62 @@ exports.updateProposal = async (req, res) => {
   }
 };
 
-exports.freelancerUpdateProposalStatus = async (req,res)=>{
+exports.freelancerUpdateProposalStatus = async (req, res) => {
   try {
-    const {id} = req.params
-    const {status} = req.body;
+    const { id } = req.params;
+    const { status } = req.body;
+    if (!status) {
+      return res
+        .status(400)
+        .json({ message: "Missing status in request body" });
+    }
 
-    
-    
-    
+    const allowedStatuses = ["in-progress", "completed", "cancelled"];
+    if (!allowedStatuses.includes(status)) {
+      return res
+        .status(400)
+        .json({
+          message: `Invalid status. Allowed: ${allowedStatuses.join(", ")}`,
+        });
+    }
+
+    const proposal = await Proposal.findById(id);
+    if (!proposal) {
+      return res.status(404).json({ message: "Proposal not found" });
+    }
+
+    if (
+      proposal.freelancerId.toString() !== req.user._id &&
+      req.user.role !== "admin"
+    ) {
+      return res
+        .status(403)
+        .json({ message: "Not authorized to update this proposal" });
+    }
+
+    const updatedProposal = await Proposal.findByIdAndUpdate(
+      id,
+      { status },
+      { new: true, runValidators: true }
+    );
+
+    if (status === "in-progress") {
+      const job = await Jobs.findById(proposal.JobId);
+      if (job) {
+        const jobUpdate = { status: "in-progress" };
+
+        if (!job.assignedFreelancer)
+          jobUpdate.assignedFreelancer = proposal.freelancerId;
+        await Jobs.findByIdAndUpdate(proposal.JobId, jobUpdate, {
+          new: true,
+          runValidators: true,
+        });
+      }
+    }
+
+    res.status(201).json(updatedProposal);
   } catch (error) {
-    res.status(500).json({ message: error.message });           
+    res.status(500).json({ message: error.message });
   }
-}
+};
+

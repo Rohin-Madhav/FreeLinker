@@ -9,4 +9,5 @@ router.get("/:jobId",auth,authorizeRoles("freelancer","client","admin"),proposal
 router.patch("/:id",auth,authorizeRoles("client","admin"),proposalController.updateProposal)
 router.patch("/:id/status",auth,authorizeRoles("freelancer"),proposalController.freelancerUpdateProposalStatus)
 
+
 module.exports = router
