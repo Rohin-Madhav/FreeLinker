@@ -7,7 +7,7 @@ router.post(
   "/create-session/:jobId",
   auth,
   authorizeRoles("client"),
-  paymentController
+  paymentController.createSession
 );
 
 module.exports = router;
