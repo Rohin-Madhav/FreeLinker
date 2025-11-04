@@ -10,4 +10,11 @@ router.post(
   paymentController.createSession
 );
 
+router.patch(
+  "/release/:jobId",
+  auth,
+  authorizeRoles("client", "admin"),
+  paymentController.releasePayment
+);
+
 module.exports = router;

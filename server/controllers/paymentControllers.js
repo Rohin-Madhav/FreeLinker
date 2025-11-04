@@ -51,3 +51,39 @@ exports.createSession = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+exports.releasePayment = async (req, res) => {
+  try {
+    const { jobId } = req.params;
+    const { status, paymentStatus } = req.body;
+
+    const job = await Jobs.findById(jobId);
+    if (!job) {
+      return res.status(404).json({ message: "Job not found" });
+    }
+
+    if (job.clientId.toString() !== req.user._id && req.user.role !== "admin") {
+      return res.status(403).json({ message: "Not authorized" });
+    }
+
+    if (job.paymentStatus !== "paid") {
+      return res.status(400).json({ message: "Payment not captured yet" });
+    }
+
+    if (job.status !== "completed") {
+      return res.status(400).json({ message: "Work not yet verified" });
+    }
+
+    const updatedJob = await Jobs.findByIdAndUpdate(
+      jobId,
+      { status, paymentStatus },
+      { new: true, runValidators: true }
+    );
+
+    res.status(200).json({
+      message: "Payment released successfully",
+      job: updatedJob,
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
