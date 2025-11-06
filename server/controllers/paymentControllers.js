@@ -87,3 +87,29 @@ exports.releasePayment = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+exports.getPayments = async (req, res) => {
+  try {
+    const { role, _id } = req.user;
+
+    let filter = {};
+
+    if (role === "client") {
+      filter.clientId = _id;
+    } else if (role === "freelancer") {
+      filter.assignedFreelancer = _id;
+    }
+
+    const jobs = await Jobs.find(filter)
+      .select(
+        "title budget paymentStatus amountPaid paymentIntentId clientId assignedFreelancer createdAt"
+      )
+      .populate("clientId", "username email")
+      .populate("assignedFreelancer", "username email");
+
+    res.status(200).json(jobs);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server Error", error: error.message });
+  }
+};

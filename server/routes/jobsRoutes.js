@@ -2,6 +2,13 @@ const router = require("express").Router();
 const jobsControllers = require("../controllers/jobsControllers");
 const auth = require("../middilwares/auth");
 const authorizeRoles = require("../middilwares/roles");
+const rateLimit = require("express-rate-limit");
+
+const postLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000,
+  max: 5,
+  message: "Too many job creation attempts, please try again after an hour",
+});
 
 router.post(
   "/create",
@@ -12,6 +19,7 @@ router.post(
 router.get(
   "/",
   auth,
+  postLimiter,
   authorizeRoles("admin", "freelancer", "client"),
   jobsControllers.getAllJobs
 );
@@ -33,6 +41,11 @@ router.delete(
   authorizeRoles("admin", "client"),
   jobsControllers.deleteJobs
 );
-router.patch("/:id/complete",auth,authorizeRoles("client"),jobsControllers.updateStatus)
+router.patch(
+  "/:id/complete",
+  auth,
+  authorizeRoles("client"),
+  jobsControllers.updateStatus
+);
 
 module.exports = router;

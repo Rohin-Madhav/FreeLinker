@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const bcrypt = require('bcrypt')
+const bcrypt = require("bcrypt");
 
 const userSchema = new mongoose.Schema({
   username: {
@@ -25,6 +25,8 @@ const userSchema = new mongoose.Schema({
       return this.role === "freelancer" ? false : true;
     },
   },
+  isBanned: { type: Boolean, default: false },
+  banReason: { type: String, default: null },
   createdAt: {
     type: Date,
     default: Date.now,
