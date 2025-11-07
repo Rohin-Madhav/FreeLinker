@@ -1,11 +1,17 @@
-import React from 'react'
+import React from "react";
+import { BrowserRouter , Route, Routes } from "react-router-dom";
+import Register from "./pages/Register";
 
 function App() {
   return (
-    <div className='text-red-500' >
-      Heloo
-    </div>
-  )
+    
+      <BrowserRouter>
+        <Routes>
+          <Route path="/register" element={<Register/>} />
+        </Routes>
+      </BrowserRouter>
+   
+  );
 }
 
-export default App
+export default App;
