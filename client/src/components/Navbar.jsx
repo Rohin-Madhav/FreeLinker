@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { Menu, X } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
 
 function Navbar() {
+  const navigate = useNavigate()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   return (
     <div>
@@ -38,10 +40,10 @@ function Navbar() {
             </div>
 
             <div className="hidden md:flex items-center gap-4">
-              <button className="text-gray-600 hover:text-gray-900 transition">
+              <button onClick={()=>navigate("/login")} className="text-gray-600 hover:text-gray-900 transition">
                 Log In
               </button>
-              <button className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition">
+              <button onClick={()=>navigate("/register")}  className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition">
                 Sign Up
               </button>
             </div>
@@ -79,13 +81,13 @@ function Navbar() {
               >
                 Why Us
               </a>
-              <a
+              <Link to={"/login"}
                 href="#"
                 className="block px-3 py-2 text-gray-600 hover:bg-gray-50 rounded-md"
               >
                 Log In
-              </a>
-              <button className="w-full mt-2 bg-blue-600 text-white px-6 py-2 rounded-lg">
+              </Link>
+              <button onClick={()=>navigate("/register")}  className="w-full mt-2 bg-blue-600 text-white px-6 py-2 rounded-lg">
                 Sign Up
               </button>
             </div>

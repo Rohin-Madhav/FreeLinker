@@ -1,8 +1,10 @@
 // src/pages/Register.jsx
 import React, { useState } from "react";
 import api from "../services/Api";
+import { Link, useNavigate } from "react-router-dom";
 
 const Register = () => {
+  const navigate = useNavigate()
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -27,6 +29,7 @@ const Register = () => {
       const res = await api.post("/auth/register", formData);
       setSuccess(res.data.message);
       setFormData({ username: "", email: "", password: "", role: "user" });
+      navigate("/login")
     } catch (err) {
       setError(
         err.response?.data?.message || "Something went wrong. Please try again."
@@ -134,12 +137,12 @@ const Register = () => {
 
         <p className="text-gray-600 text-center mt-6 text-sm">
           Already have an account?{" "}
-          <a
-            href="/login"
+          <Link
+            to={"/login"}
             className="text-blue-600 hover:underline font-medium"
           >
             Login here
-          </a>
+          </Link>
         </p>
       </div>
     </div>
