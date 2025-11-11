@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Outlet } from "react-router-dom";
-import { Menu, X, Bell, User, Settings, LogOut, Search } from "lucide-react";
+import { X, Bell, User, Settings, LogOut, Search } from "lucide-react";
+import Sidebar from "../Sidebar";
 
 function AdminLayoute() {
   const [profileDropdown, setProfileDropdown] = useState(false);
@@ -13,10 +14,6 @@ function AdminLayoute() {
           <div className="flex justify-between items-center h-16">
             {/* Left Side - Logo & Menu Toggle */}
             <div className="flex items-center gap-4">
-              <button className="lg:hidden p-2 hover:bg-gray-100 rounded-lg transition">
-                <Menu className="w-6 h-6 text-gray-700" />
-              </button>
-
               <div className="flex items-center gap-2">
                 <div className="w-10 h-10 bg-gradient-to-br from-purple-600 to-blue-600 rounded-lg"></div>
                 <span className="text-xl font-bold text-gray-900">
@@ -161,6 +158,7 @@ function AdminLayoute() {
           </div>
         </div>
       </nav>
+      <Sidebar />
       <Outlet />
     </div>
   );

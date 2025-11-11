@@ -3,6 +3,8 @@ import Navbar from "../Navbar";
 import { Outlet } from "react-router-dom";
 import Footer from "../Footer";
 import { Menu, X, Bell, User, Settings, LogOut } from "lucide-react";
+import Sidebar from "../Sidebar";
+
 
 function ClientLayout() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -21,32 +23,7 @@ function ClientLayout() {
             </div>
 
             {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center gap-6">
-              <a
-                href="/client/dashboard"
-                className="text-gray-700 hover:text-blue-600 transition font-medium"
-              >
-                Dashboard
-              </a>
-              <a
-                href="/client/projects"
-                className="text-gray-700 hover:text-blue-600 transition font-medium"
-              >
-                My Projects
-              </a>
-              <a
-                href="/client/freelancers"
-                className="text-gray-700 hover:text-blue-600 transition font-medium"
-              >
-                Find Freelancers
-              </a>
-              <a
-                href="/client/messages"
-                className="text-gray-700 hover:text-blue-600 transition font-medium"
-              >
-                Messages
-              </a>
-            </div>
+           
 
             {/* Right Side Actions */}
             <div className="hidden md:flex items-center gap-4">
@@ -97,69 +74,14 @@ function ClientLayout() {
             </div>
 
             {/* Mobile Menu Button */}
-            <div className="md:hidden">
-              <button
-                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="p-2 text-gray-600 hover:text-gray-900"
-              >
-                {mobileMenuOpen ? (
-                  <X className="w-6 h-6" />
-                ) : (
-                  <Menu className="w-6 h-6" />
-                )}
-              </button>
-            </div>
+           
           </div>
         </div>
 
         {/* Mobile Menu */}
-        {mobileMenuOpen && (
-          <div className="md:hidden bg-white border-t border-gray-200">
-            <div className="px-4 pt-2 pb-3 space-y-1">
-              <a
-                href="/client/dashboard"
-                className="block px-3 py-2 text-gray-700 hover:bg-gray-50 rounded-md font-medium"
-              >
-                Dashboard
-              </a>
-              <a
-                href="/client/projects"
-                className="block px-3 py-2 text-gray-700 hover:bg-gray-50 rounded-md font-medium"
-              >
-                My Projects
-              </a>
-              <a
-                href="/client/freelancers"
-                className="block px-3 py-2 text-gray-700 hover:bg-gray-50 rounded-md font-medium"
-              >
-                Find Freelancers
-              </a>
-              <a
-                href="/client/messages"
-                className="block px-3 py-2 text-gray-700 hover:bg-gray-50 rounded-md font-medium"
-              >
-                Messages
-              </a>
-              <hr className="my-2" />
-              <a
-                href="/client/profile"
-                className="block px-3 py-2 text-gray-700 hover:bg-gray-50 rounded-md"
-              >
-                Profile
-              </a>
-              <a
-                href="/client/settings"
-                className="block px-3 py-2 text-gray-700 hover:bg-gray-50 rounded-md"
-              >
-                Settings
-              </a>
-              <button className="w-full text-left px-3 py-2 text-red-600 hover:bg-gray-50 rounded-md">
-                Logout
-              </button>
-            </div>
-          </div>
-        )}
+        
       </nav>
+      <Sidebar />
       <Outlet />
       <Footer />
     </div>

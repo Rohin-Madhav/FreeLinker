@@ -12,8 +12,10 @@ import {
   Search,
   Star,
 } from "lucide-react";
+
 import { Outlet } from "react-router-dom";
 import Footer from "../Footer";
+import Sidebar from "../Sidebar";
 
 function FreelancerLayout() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -30,26 +32,6 @@ function FreelancerLayout() {
               <span className="text-xl font-bold text-gray-900">
                 FreeLinker
               </span>
-            </div>
-
-            {/* Desktop Navigation */}
-            <div className="hidden lg:flex items-center gap-6">
-             
-              <a
-                href="/freelancer/payments"
-                className="flex items-center gap-1 text-gray-700 hover:text-green-600 transition font-medium"
-              >
-                <DollarSign className="w-4 h-4" />
-                Payments
-              </a>
-              <a
-                href="/freelancer/messages"
-                className="flex items-center gap-1 text-gray-700 hover:text-green-600 transition font-medium relative"
-              >
-                <MessageSquare className="w-4 h-4" />
-                Messages
-                <span className="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full"></span>
-              </a>
             </div>
 
             {/* Right Side Actions */}
@@ -199,100 +181,10 @@ function FreelancerLayout() {
                 )}
               </div>
             </div>
-
-            {/* Mobile Menu Button */}
-            <div className="lg:hidden">
-              <button
-                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="p-2 text-gray-600 hover:text-gray-900"
-              >
-                {mobileMenuOpen ? (
-                  <X className="w-6 h-6" />
-                ) : (
-                  <Menu className="w-6 h-6" />
-                )}
-              </button>
-            </div>
           </div>
         </div>
-
-        {/* Mobile Menu */}
-        {mobileMenuOpen && (
-          <div className="lg:hidden bg-white border-t border-gray-200">
-            <div className="px-4 pt-2 pb-3 space-y-1">
-              {/* Earnings Badge */}
-              <div className="flex items-center justify-between px-3 py-2 bg-green-50 border border-green-200 rounded-md mb-2">
-                <span className="text-sm font-medium text-gray-700">
-                  Total Earnings
-                </span>
-                <span className="text-lg font-bold text-green-600">$2,450</span>
-              </div>
-
-              <a
-                href="/freelancer/dashboard"
-                className="block px-3 py-2 text-gray-700 hover:bg-gray-50 rounded-md font-medium"
-              >
-                Dashboard
-              </a>
-              <a
-                href="/freelancer/find-work"
-                className="flex items-center gap-2 px-3 py-2 text-gray-700 hover:bg-gray-50 rounded-md font-medium"
-              >
-                <Search className="w-4 h-4" />
-                Find Work
-              </a>
-              <a
-                href="/freelancer/projects"
-                className="flex items-center gap-2 px-3 py-2 text-gray-700 hover:bg-gray-50 rounded-md font-medium"
-              >
-                <Briefcase className="w-4 h-4" />
-                My Projects
-              </a>
-              <a
-                href="/freelancer/payments"
-                className="flex items-center gap-2 px-3 py-2 text-gray-700 hover:bg-gray-50 rounded-md font-medium"
-              >
-                <DollarSign className="w-4 h-4" />
-                Payments
-              </a>
-              <a
-                href="/freelancer/messages"
-                className="flex items-center gap-2 px-3 py-2 text-gray-700 hover:bg-gray-50 rounded-md font-medium"
-              >
-                <MessageSquare className="w-4 h-4" />
-                Messages
-                <span className="ml-auto w-2 h-2 bg-red-500 rounded-full"></span>
-              </a>
-              <hr className="my-2" />
-              <a
-                href="/freelancer/profile"
-                className="flex items-center gap-2 px-3 py-2 text-gray-700 hover:bg-gray-50 rounded-md"
-              >
-                <User className="w-4 h-4" />
-                Profile
-              </a>
-              <a
-                href="/freelancer/portfolio"
-                className="flex items-center gap-2 px-3 py-2 text-gray-700 hover:bg-gray-50 rounded-md"
-              >
-                <Briefcase className="w-4 h-4" />
-                Portfolio
-              </a>
-              <a
-                href="/freelancer/settings"
-                className="flex items-center gap-2 px-3 py-2 text-gray-700 hover:bg-gray-50 rounded-md"
-              >
-                <Settings className="w-4 h-4" />
-                Settings
-              </a>
-              <button className="w-full flex items-center gap-2 text-left px-3 py-2 text-red-600 hover:bg-gray-50 rounded-md">
-                <LogOut className="w-4 h-4" />
-                Logout
-              </button>
-            </div>
-          </div>
-        )}
       </nav>
+      <Sidebar />
       <Outlet />
       <Footer />
     </div>
