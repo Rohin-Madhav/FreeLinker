@@ -13,13 +13,13 @@ const postLimiter = rateLimit({
 router.post(
   "/create",
   auth,
+  postLimiter,
   authorizeRoles("client"),
   jobsControllers.createJobs
 );
 router.get(
   "/",
   auth,
-  postLimiter,
   authorizeRoles("admin", "freelancer", "client"),
   jobsControllers.getAllJobs
 );

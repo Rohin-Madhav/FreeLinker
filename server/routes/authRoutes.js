@@ -14,7 +14,7 @@ const registerLimiter = rateLimit({
   message: "Too many registration attempts, please try again after 5 minutes",
 });
 
-router.post("/register", authControllers.registerUser);
+router.post("/register",registerLimiter, authControllers.registerUser);
 router.post("/login", loginLimiter, authControllers.loginUser);
 
 module.exports = router;
