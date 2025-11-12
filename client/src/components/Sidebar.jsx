@@ -109,7 +109,7 @@ export default function Sidebar() {
           </SheetContent>
         </Sheet>
         <h1 className="ml-4 font-bold text-xl text-gray-900 dark:text-gray-100">
-          FreeLinker
+          Naviagte To ➡️
         </h1>
       </div>
 
@@ -122,7 +122,7 @@ export default function Sidebar() {
         <div className="flex items-center justify-between mb-8 p-4">
           {!collapsed && (
             <span className="text-2xl font-bold text-gray-900 dark:text-gray-100">
-              FreeLinker
+               Naviagte To ➡️
             </span>
           )}
           <Button

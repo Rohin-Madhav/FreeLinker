@@ -6,11 +6,21 @@ const authorizeRole = require("../middilwares/roles");
 router.patch(
   "/:id",
   auth,
- authorizeRole("admin"),
+  authorizeRole("admin"),
   userController.approveFreelancer
 );
 router.get("/", auth, authorizeRole("admin"), userController.getAllUsers);
-router.post("/suspend/:userId",auth,authorizeRole("admin"),userController.suspendUser)
-
+router.get(
+  "/:id",
+  auth,
+  authorizeRole("admin", "freelancer", "client"),
+  userController.getUserById
+);
+router.post(
+  "/suspend/:userId",
+  auth,
+  authorizeRole("admin"),
+  userController.suspendUser
+);
 
 module.exports = router;

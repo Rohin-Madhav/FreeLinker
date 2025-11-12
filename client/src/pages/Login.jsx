@@ -36,19 +36,20 @@ function Login() {
       // Store session
       localStorage.setItem("token", data.token);
       localStorage.setItem("role", data.user.role);
+      localStorage.setItem("userId", data.user._id);
 
       const roleNormalized = data.user.role.toLowerCase();
 
       // Role-based navigation
       switch (roleNormalized) {
         case "admin":
-          navigate("/admin/admin-dashboard");
+          navigate(`/admin/${data.user._id}/admin-dashboard`);
           break;
         case "freelancer":
-          navigate("/freelancer/freelancer-dashboard");
+          navigate(`/freelancer/${data.user._id}/freelancer-dashboard`);
           break;
         case "client":
-          navigate("/client/client-dashboard");
+          navigate(`/client/${data.user._id}/client-dashboard`);
           break;
         default:
           setError(`Invalid role: ${data.user.role}`);
