@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Bell,
   User,
@@ -11,14 +11,31 @@ import {
 
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
-
+import api from "../../services/Api";
 import { Outlet } from "react-router-dom";
 import Footer from "../Footer";
 import Sidebar from "../Sidebar";
 
 function FreelancerLayout() {
+  const [userData, setUserData] = useState({});
   const [profileDropdown, setProfileDropdown] = useState(false);
   const [notificationDropdown, setNotificationDropdown] = useState(false);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const userId = localStorage.getItem("userId");
+
+        const res = await api.get(`/users/${userId}`);
+        setUserData(res.data);
+        console.log(res.data);
+        
+      } catch (error) {
+        console.log({ message: error.message });
+      }
+    };
+    fetchData();
+  }, []);
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-50 dark:bg-gray-900">
@@ -106,7 +123,7 @@ function FreelancerLayout() {
                   </div>
                   <div className="text-left">
                     <p className="text-sm font-medium text-gray-900 dark:text-gray-100">
-                      Alex Johnson
+                     {userData.username}
                     </p>
                     <div className="flex items-center gap-1">
                       <Star className="w-3 h-3 text-yellow-400 fill-yellow-400" />
@@ -121,10 +138,10 @@ function FreelancerLayout() {
                   <div className="absolute right-0 mt-2 w-64 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 py-1 z-50">
                     <div className="px-4 py-3 border-b border-gray-200 dark:border-gray-700">
                       <p className="text-sm font-medium text-gray-900 dark:text-gray-100">
-                        Alex Johnson
+                       {userData.username}
                       </p>
                       <p className="text-xs text-gray-500 dark:text-gray-400">
-                        Full Stack Developer
+                        {userData.email}
                       </p>
                     </div>
                     <a

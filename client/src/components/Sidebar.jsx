@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -16,25 +16,35 @@ import {
   Home,
   Users,
   Briefcase,
-  Settings,
+  Handshake,
   ChevronLeft,
   ChevronRight,
   Moon,
   Sun,
+  UserStar,
 } from "lucide-react";
+import { toast } from "react-toastify";
 
 export default function Sidebar() {
+  const { id } = useParams();
   const location = useLocation();
   const [collapsed, setCollapsed] = useState(false);
   const [role, setRole] = useState("");
+  const navigate = useNavigate();
 
   // Fetch user role from localStorage
   useEffect(() => {
     const storedRole = localStorage.getItem("role")?.toLowerCase();
     setRole(storedRole || "freelancer");
-  }, []);
+  }, [id]);
 
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    toast.success("Logout success");
+    navigate("/login");
+  };
   // Define nav items for each role
+
   const navItemsByRole = {
     admin: [
       {
@@ -55,18 +65,28 @@ export default function Sidebar() {
     ],
     freelancer: [
       {
-        label: "Freelancer Dashboard",
-        path: "/freelancer/freelancer-dashboard",
+        label: " Dashboard",
+        path: `/freelancer/${id}/freelancer-dashboard`,
         icon: <Home className="w-5 h-5" />,
       },
       {
-        label: "My Projects",
-        path: "/freelancer/projects",
+        label: "My Works",
+        path: `/freelancer/${id}/my-works`,
         icon: <Briefcase className="w-5 h-5" />,
       },
       {
+        label: "My Proposals",
+        path: `/freelancer/${id}/my-proposals`,
+        icon: <Handshake className="w-5 h-5" />,
+      },
+      {
+        label: "My Reviews",
+        path: `/freelancer/${id}/my-reviews`,
+        icon: <UserStar className="w-5 h-5" />,
+      },
+      {
         label: "Profile",
-        path: "/freelancer/profile",
+        path: `/freelancer/${id}/my-profile`,
         icon: <Users className="w-5 h-5" />,
       },
     ],
@@ -88,7 +108,6 @@ export default function Sidebar() {
       },
     ],
   };
-
   const navItems = navItemsByRole[role] || [];
 
   return (
@@ -105,7 +124,11 @@ export default function Sidebar() {
             side="left"
             className="w-64 bg-white dark:bg-gray-900 p-6"
           >
-            <SidebarContent location={location} navItems={navItems} />
+            <SidebarContent
+              location={location}
+              navItems={navItems}
+              handleLogout={handleLogout}
+            />
           </SheetContent>
         </Sheet>
         <h1 className="ml-4 font-bold text-xl text-gray-900 dark:text-gray-100">
@@ -122,7 +145,7 @@ export default function Sidebar() {
         <div className="flex items-center justify-between mb-8 p-4">
           {!collapsed && (
             <span className="text-2xl font-bold text-gray-900 dark:text-gray-100">
-               Naviagte To ➡️
+              Naviagte To ➡️
             </span>
           )}
           <Button
@@ -143,6 +166,7 @@ export default function Sidebar() {
           location={location}
           navItems={navItems}
           collapsed={collapsed}
+          handleLogout={handleLogout}
         />
       </aside>
     </>
@@ -150,7 +174,7 @@ export default function Sidebar() {
 }
 
 // 🌓 Sidebar Content + Dark Mode Toggle
-function SidebarContent({ location, navItems, collapsed }) {
+function SidebarContent({ location, navItems, collapsed, handleLogout }) {
   const [darkMode, setDarkMode] = useState(false);
 
   // Load theme from localStorage
@@ -203,12 +227,12 @@ function SidebarContent({ location, navItems, collapsed }) {
       <div className="mt-auto pt-4 border-t border-gray-200 dark:border-gray-700">
         {!collapsed && (
           <>
-            <Link
-              to="/logout"
+            <button
+              onClick={handleLogout}
               className="text-gray-500 dark:text-gray-400 text-sm hover:text-red-600 transition"
             >
               Log out
-            </Link>
+            </button>
 
             <Separator className="my-4" />
 
