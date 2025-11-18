@@ -127,11 +127,9 @@ exports.freelancerUpdateProposalStatus = async (req, res) => {
 
     const allowedStatuses = ["in-progress", "completed", "cancelled"];
     if (!allowedStatuses.includes(status)) {
-      return res
-        .status(400)
-        .json({
-          message: `Invalid status. Allowed: ${allowedStatuses.join(", ")}`,
-        });
+      return res.status(400).json({
+        message: `Invalid status. Allowed: ${allowedStatuses.join(", ")}`,
+      });
     }
 
     const proposal = await Proposal.findById(id);
@@ -173,4 +171,3 @@ exports.freelancerUpdateProposalStatus = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
-

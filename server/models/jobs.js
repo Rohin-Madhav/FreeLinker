@@ -18,7 +18,7 @@ const jobSchema = new mongoose.Schema({
     min: 0,
   },
   deadline: {
-    type: Date,
+    type: String,
   },
   assignedFreelancer: {
     type: mongoose.Schema.Types.ObjectId,
