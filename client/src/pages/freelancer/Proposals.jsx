@@ -15,10 +15,27 @@ function Proposals() {
         setError("data fetched err");
         console.error(error.message);
       }
-      fetchProposals()
     };
+    fetchProposals()
   }, []);
-  return <div></div>;
+  return <div>
+    <h1>My Proposals</h1>
+   <table>
+{proposal.map((p)=>(
+  <tr key={p._id}>
+    <tr>
+    <th>jobId</th>
+    <th>bidAmount</th>
+    <th>proposalText</th>
+    <th>status</th>
+  </tr>
+  <tr>
+    <td>{p.jobId}</td>
+  </tr>
+</tr>
+))}
+</table>
+  </div>;
 }
 
 export default Proposals;
