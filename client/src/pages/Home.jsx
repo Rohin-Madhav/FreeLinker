@@ -19,8 +19,12 @@ function Home() {
               Hire Freelancers. Get Work Done.
             </h1>
             <p className="text-lg text-gray-600 mb-10">
-              [Briefly explain the platform's value proposition for both clients
-              and freelancers here.]
+              FreeLinker connects businesses and skilled professionals through a
+              trusted, transparent, and fast platform. Clients can easily find
+              and hire verified freelancers for projects of any size, while
+              freelancers gain access to a steady stream of high-quality
+              opportunities that match their skills and interests — all in one
+              simple, secure workspace.
             </p>
 
             {/* Search Bar */}
@@ -128,8 +132,12 @@ function Home() {
                 </h2>
               </div>
               <p className="text-gray-600 mb-6">
-                [Explanation of how clients can post jobs, find talent, and
-                manage projects easily.]
+                Clients can post detailed job listings in minutes, browse
+                verified freelancer profiles, and compare proposals
+                effortlessly. FreeLinker’s intelligent matching system helps you
+                find the right talent quickly, while our built-in project
+                management tools make it easy to track progress, communicate in
+                real time, and handle secure payments — all in one place.
               </p>
 
               <div className="space-y-4 mb-8">
@@ -167,8 +175,12 @@ function Home() {
                 </h2>
               </div>
               <p className="text-gray-600 mb-6">
-                [Explanation of how freelancers can find work, build their
-                portfolio, and get paid.]
+                Freelancers can discover projects that match their expertise,
+                showcase their skills through a professional portfolio, and
+                build long-term relationships with clients. FreeLinker
+                simplifies every step — from applying to jobs and managing
+                deliverables to receiving secure payments — so you can focus on
+                doing what you do best.
               </p>
 
               <div className="space-y-4 mb-8">
@@ -211,10 +223,10 @@ function Home() {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="bg-blue-600 text-white px-8 py-4 rounded-lg hover:bg-blue-700 transition text-lg font-medium">
+            <button className="bg-blue-600 text-white px-8 py-4 rounded-lg cursor-pointer hover:bg-blue-700 transition text-lg font-medium ">
               Join as a Client
             </button>
-            <button className="border-2 border-blue-600 text-blue-600 px-8 py-4 rounded-lg hover:bg-blue-50 transition text-lg font-medium">
+            <button className="border-2  cursor-pointer border-blue-600 text-blue-600 px-8 py-4 rounded-lg hover:bg-blue-50 transition text-lg font-medium">
               Join as a Freelancer
             </button>
           </div>
