@@ -142,7 +142,7 @@ function FreelancerDashboard() {
 
               <button
                 onClick={() => handleViewDetails(job._id)}
-                className="mt-4 w-full py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold"
+                className="mt-4 cursor-pointer w-full py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold"
               >
                 View Details
               </button>
@@ -196,7 +196,7 @@ function FreelancerDashboard() {
                           setSelectedJobId(null);
                           setJobDetails(null);
                         }}
-                        className="mt-3 text-blue-400 hover:text-blue-300"
+                        className="mt-3 cursor-pointer text-blue-400 hover:text-blue-300"
                       >
                         Hide Details
                       </button>
@@ -205,7 +205,7 @@ function FreelancerDashboard() {
                       <div className="mt-4">
                         <button
                           onClick={() => openProposalForm(jobDetails)}
-                          className="w-full py-2 bg-pink-600 hover:bg-pink-700 text-white rounded-lg font-semibold flex items-center justify-center gap-2"
+                          className="w-full cursor-pointer py-2 bg-pink-600 hover:bg-pink-700 text-white rounded-lg font-semibold flex items-center justify-center gap-2"
                         >
                           <Send className="w-4 h-4" />
                           Make Proposal
@@ -279,13 +279,13 @@ function FreelancerDashboard() {
                 <button
                   type="button"
                   onClick={closeProposalForm}
-                  className="px-4 py-2 bg-slate-600 hover:bg-slate-700 text-white rounded-lg transition duration-200"
+                  className="px-4 cursor-pointer py-2 bg-slate-600 hover:bg-slate-700 text-white rounded-lg transition duration-200"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold transition duration-200"
+                  className="px-4 cursor-pointer py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold transition duration-200"
                 >
                   Submit Proposal
                 </button>
