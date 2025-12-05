@@ -18,7 +18,7 @@ router.post(
   proposalController.createProposal
 );
 router.get(
-  "/:jobId",
+  "/",
   auth,
   authorizeRoles("freelancer", "client", "admin"),
   proposalController.getProposal

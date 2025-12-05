@@ -18,7 +18,7 @@ const auth = async (req, res, next) => {
     }
   }
   if (!token) {
-    res.status(401).json({ message: "Not authorized, no token" });
+   return res.status(401).json({ message: "Not authorized, no token" });
   }
 };
 

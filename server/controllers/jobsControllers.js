@@ -31,6 +31,7 @@ exports.getAllJobs = async (req, res) => {
       jobs = await Jobs.find({ clientId: req.user._id });
     } else {
       jobs = await Jobs.find();
+    
     }
 
     res.status(200).json(jobs);
@@ -49,6 +50,19 @@ exports.getJobsById = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+exports.myAssignedJobs = async (req,res) =>{
+  try {
+    const freelancerId = req.user._id
+
+    const assignedJob = await Jobs.find({ assignedFreelancer: freelancerId })
+
+    res.status(200).json(assignedJob)
+    
+  } catch (error) {
+    res.status(500).json({message:error.message})
+  }
+}
 
 exports.updateJobs = async (req, res) => {
   try {

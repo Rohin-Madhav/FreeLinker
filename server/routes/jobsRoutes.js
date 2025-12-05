@@ -10,6 +10,12 @@ const postLimiter = rateLimit({
   message: "Too many job creation attempts, please try again after an hour",
 });
 
+router.get(
+  "/my-assignment",
+  auth,
+  authorizeRoles("freelancer"),
+  jobsControllers.myAssignedJobs
+);
 router.post(
   "/create",
   auth,
@@ -20,13 +26,13 @@ router.post(
 router.get(
   "/",
   auth,
-  authorizeRoles("admin", "freelancer", "client"),
+  authorizeRoles("admin", "freelancer"),
   jobsControllers.getAllJobs
 );
 router.get(
   "/:jobId",
   auth,
-  authorizeRoles("admin", "freelancer", "client"),
+  authorizeRoles("admin", "client"),
   jobsControllers.getJobsById
 );
 router.patch(
