@@ -28,7 +28,6 @@ function FreelancerLayout() {
 
         const res = await api.get(`/users/${userId}`);
         setUserData(res.data);
-        console.log(res.data);
         
       } catch (error) {
         console.log({ message: error.message });
