@@ -32,7 +32,7 @@ router.get(
 router.get(
   "/:jobId",
   auth,
-  authorizeRoles("admin", "client"),
+  authorizeRoles("admin","freelancer","client"),
   jobsControllers.getJobsById
 );
 router.patch(
