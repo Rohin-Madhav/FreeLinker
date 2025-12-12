@@ -40,20 +40,20 @@ function Works() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-4 sm:p-6 lg:p-8">
+    <div className="min-h-screen  p-4 sm:p-6 lg:p-8">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-2">
+          <h1 className="text-3xl sm:text-4xl font-bold  mb-2">
             My Assigned Works
           </h1>
-          <p className="text-gray-600">
+          <p >
             Track and manage your freelance assignments
           </p>
         </div>
 
         {/* Table Container */}
-        <div className="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200">
+        <div className=" rounded-xl shadow-lg overflow-hidden border border-gray-200">
           {loading ? (
             <div className="flex items-center justify-center py-12">
               <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
@@ -63,8 +63,8 @@ function Works() {
               <svg className="mx-auto h-16 w-16 text-gray-400 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
               </svg>
-              <h3 className="text-lg font-medium text-gray-900 mb-1">No assignments yet</h3>
-              <p className="text-gray-500">Your assigned works will appear here</p>
+              <h3 className="text-lg font-medium  mb-1">No assignments yet</h3>
+              <p >Your assigned works will appear here</p>
             </div>
           ) : (
             <div className="overflow-x-auto">
@@ -72,22 +72,22 @@ function Works() {
                 {/* Table Header */}
                 <thead className="bg-gradient-to-r from-gray-50 to-gray-100">
                   <tr>
-                    <th scope="col" className="px-6 py-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                    <th scope="col" className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider">
                       Freelancer
                     </th>
-                    <th scope="col" className="px-6 py-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                    <th scope="col" className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider">
                       Client
                     </th>
-                    <th scope="col" className="px-6 py-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                    <th scope="col" className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider">
                       Bid Amount
                     </th>
-                    <th scope="col" className="px-6 py-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                    <th scope="col" className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider">
                       Payment Status
                     </th>
-                    <th scope="col" className="px-6 py-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                    <th scope="col" className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider">
                       Amount Paid
                     </th>
-                    <th scope="col" className="px-6 py-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                    <th scope="col" className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider">
                       Project Status
                     </th>
                   </tr>
@@ -104,7 +104,7 @@ function Works() {
                             {(w.assignedFreelancer?.username || "U").charAt(0).toUpperCase()}
                           </div>
                           <div className="ml-4">
-                            <div className="text-sm font-medium text-gray-900">
+                            <div className="text-sm font-medium ">
                               {w.assignedFreelancer?.username || "Unknown User"}
                             </div>
                           </div>
@@ -113,14 +113,14 @@ function Works() {
 
                       {/* Client Name */}
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm text-gray-900 font-medium">
+                        <div className="text-sm  font-medium">
                           {w.clientId?.username || "Unknown Client"}
                         </div>
                       </td>
 
                       {/* Bid Amount */}
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm font-semibold text-gray-900">
+                        <div className="text-sm font-semibold ">
                           ${w.bidAmount?.toLocaleString() || '0'}
                         </div>
                       </td>
@@ -159,7 +159,7 @@ function Works() {
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <div className="text-center sm:text-left">
                 <p className="text-sm text-gray-600 mb-1">Total Projects</p>
-                <p className="text-2xl font-bold text-gray-900">{myWorks.length}</p>
+                <p className="text-2xl font-bold ">{myWorks.length}</p>
               </div>
               <div className="text-center sm:text-left">
                 <p className="text-sm text-gray-600 mb-1">Total Bid Amount</p>
