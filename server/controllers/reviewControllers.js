@@ -49,8 +49,8 @@ exports.createReview = async (req, res) => {
 
 exports.getReviews = async (req, res) => {
   try {
-    const { userId } = req.params;
-    const reviews = await Review.find({ revieweeId: userId })
+    const { userId: id } = req.params;
+    const reviews = await Review.find({ revieweeId: id })
       .populate("reviewerId", "username role")
       .populate("jobId", "title");
 

@@ -1,12 +1,13 @@
 const express = require("express");
 const cors = require("cors");
-const morgan = require("morgan")
+const morgan = require("morgan");
 const connectDB = require("./config/db");
 const authRoutes = require("./routes/authRoutes");
 const userRoutes = require("./routes/userRoutes");
 const jobsRoutes = require("./routes/jobsRoutes");
 const proposalRoutes = require("./routes/proposalRoutes");
 const paymentRoutes = require("./routes/paymentRoutes");
+const reviewRoutes = require("./routes/reviewRoutes");
 const stripe = require("./utils/stripe");
 const Jobs = require("./models/jobs");
 
@@ -55,20 +56,20 @@ app.post(
   }
 );
 
-
 const PORT = process.env.PORT || 3000;
 connectDB();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
-app.use(morgan("dev"))
+app.use(morgan("dev"));
 
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/jobs", jobsRoutes);
 app.use("/api/proposal", proposalRoutes);
 app.use("/api/payment", paymentRoutes);
+app.use("/api/review", reviewRoutes);
 
 app.listen(PORT, () => {
   console.log(`server is running :${PORT}`);

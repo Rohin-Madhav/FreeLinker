@@ -10,6 +10,6 @@ router.post(
   reviwController.createReview
 );
 
-router.get("/userId",reviwController.getReviews)
+router.get("/:id",reviwController.getReviews)
 
 module.exports = router;
