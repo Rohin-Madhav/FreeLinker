@@ -30,7 +30,7 @@ function App() {
         </Route>
         //region  Admin
         <Route path="/admin/:id" element={<AdminLayout />}>
-          <Route path="admin-dashboard" element={<AdminDahboard />} />
+          <Route path="admin-dashboard/:id" element={<AdminDahboard />} />
         </Route>
         //region Freelancer
         <Route path="/freelancer/:id" element={<FreelancerLayout />}>
