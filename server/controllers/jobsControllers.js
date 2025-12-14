@@ -42,14 +42,35 @@ exports.getAllJobs = async (req, res) => {
 
 exports.getJobsById = async (req, res) => {
   try {
-    const { jobId } = req.params;
+    const { JobId } = req.params;
+    const job = await Jobs.findById(id);
 
-    const job = await Jobs.findById(jobId);
+    if (!job) {
+      return res.status(404).json({ message: "Job not found" });
+    } 
     res.status(200).json(job);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  } 
+};
+
+exports.getjobByClientId = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    
+    const jobs = await Jobs.find({ clientId: id });
+
+    if (!jobs || jobs.length === 0) {
+      return res.status(404).json({ message: "No jobs found for this client" });
+    }
+
+    res.status(200).json(jobs);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
+
 
 exports.myAssignedJobs = async (req,res) =>{
   try {
