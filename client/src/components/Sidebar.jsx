@@ -22,6 +22,8 @@ import {
   Moon,
   Sun,
   UserStar,
+  CircleDollarSign,
+  CalendarClock,
 } from "lucide-react";
 import { toast } from "react-toastify";
 
@@ -93,18 +95,28 @@ export default function Sidebar() {
     client: [
       {
         label: "Client Dashboard",
-        path: "/client/client-dashboard",
+        path: `/client/${id}/client-dashboard`,
         icon: <Home className="w-5 h-5" />,
       },
       {
-        label: "Hire Talent",
-        path: "/client/hire",
-        icon: <Users className="w-5 h-5" />,
+        label: "Proposals",
+        path: `/client/${id}/proposals`,
+        icon: <Handshake className="w-5 h-5" />,
       },
       {
-        label: "My Projects",
-        path: "/client/projects",
-        icon: <Briefcase className="w-5 h-5" />,
+        label: "Live Projects",
+        path: `/client/${id}/ongoing-projects`,
+        icon: <CalendarClock className="w-5 h-5" />,
+      },
+      {
+        label: "Payments",
+        path: `/client/${id}/payments`,
+        icon: <CircleDollarSign className="w-5 h-5" />,
+      },
+      {
+        label: "my Reviews",
+        path: `/client/${id}/my-review`,
+        icon: <UserStar className="w-5 h-5" />,
       },
     ],
   };

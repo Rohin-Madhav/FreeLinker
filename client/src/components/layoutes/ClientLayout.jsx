@@ -1,13 +1,11 @@
 import React, { useState } from "react";
-import Navbar from "../Navbar";
 import { Outlet } from "react-router-dom";
 import Footer from "../Footer";
-import { Menu, X, Bell, User, Settings, LogOut } from "lucide-react";
+import {  X, Bell, User, Settings, LogOut } from "lucide-react";
 import Sidebar from "../Sidebar";
 
 
 function ClientLayout() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [profileDropdown, setProfileDropdown] = useState(false);
   return (
     <div>
@@ -73,7 +71,7 @@ function ClientLayout() {
               </div>
             </div>
 
-            {/* Mobile Menu Button */}
+            
            
           </div>
         </div>
