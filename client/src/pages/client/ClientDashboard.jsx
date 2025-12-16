@@ -5,10 +5,13 @@ import api from '@/services/Api'
 function ClientDashboard() {
   const { id } = useParams()
   const [jobs, setJobs] = useState([])
+  const [form, setForm] = useState({
+    title: "", description: "", budget: "", deadline: ""
+  })
   const [loading, setLoading] = useState(true)
   const [filter, setFilter] = useState('all')
   const [currentPage, setCurrentPage] = useState(1)
-  const jobsPerPage = 6
+  const jobsPerPage = 3
 
   useEffect(() => {
     const fetchJobs = async () => {
@@ -146,8 +149,8 @@ function ClientDashboard() {
             <button
               onClick={() => handleFilterChange('all')}
               className={`px-4 py-2 rounded-lg font-medium transition-colors ${filter === 'all'
-                  ? 'bg-indigo-600 text-white'
-                  : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                ? 'bg-indigo-600 text-white'
+                : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
                 }`}
             >
               All Jobs
@@ -155,8 +158,8 @@ function ClientDashboard() {
             <button
               onClick={() => handleFilterChange('open')}
               className={`px-4 py-2 rounded-lg font-medium transition-colors ${filter === 'open'
-                  ? 'bg-blue-600 text-white'
-                  : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                ? 'bg-blue-600 text-white'
+                : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
                 }`}
             >
               Open
@@ -164,8 +167,8 @@ function ClientDashboard() {
             <button
               onClick={() => handleFilterChange('assigned')}
               className={`px-4 py-2 rounded-lg font-medium transition-colors ${filter === 'assigned'
-                  ? 'bg-purple-600 text-white'
-                  : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                ? 'bg-purple-600 text-white'
+                : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
                 }`}
             >
               Assigned
@@ -173,8 +176,8 @@ function ClientDashboard() {
             <button
               onClick={() => handleFilterChange('in-progress')}
               className={`px-4 py-2 rounded-lg font-medium transition-colors ${filter === 'in-progress'
-                  ? 'bg-yellow-600 text-white'
-                  : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                ? 'bg-yellow-600 text-white'
+                : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
                 }`}
             >
               In Progress
@@ -182,8 +185,8 @@ function ClientDashboard() {
             <button
               onClick={() => handleFilterChange('completed')}
               className={`px-4 py-2 rounded-lg font-medium transition-colors ${filter === 'completed'
-                  ? 'bg-green-600 text-white'
-                  : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                ? 'bg-green-600 text-white'
+                : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
                 }`}
             >
               Completed
@@ -191,8 +194,8 @@ function ClientDashboard() {
             <button
               onClick={() => handleFilterChange('cancelled')}
               className={`px-4 py-2 rounded-lg font-medium transition-colors ${filter === 'cancelled'
-                  ? 'bg-red-600 text-white'
-                  : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                ? 'bg-red-600 text-white'
+                : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
                 }`}
             >
               Cancelled
@@ -280,8 +283,8 @@ function ClientDashboard() {
                   onClick={() => handlePageChange(currentPage - 1)}
                   disabled={currentPage === 1}
                   className={`px-4 py-2 rounded-lg font-medium transition-colors ${currentPage === 1
-                      ? 'bg-gray-100 dark:bg-gray-800 text-gray-400 dark:text-gray-600 cursor-not-allowed'
-                      : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-indigo-50 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-700'
+                    ? 'bg-gray-100 dark:bg-gray-800 text-gray-400 dark:text-gray-600 cursor-not-allowed'
+                    : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-indigo-50 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-700'
                     }`}
                 >
                   Previous
@@ -295,8 +298,8 @@ function ClientDashboard() {
                         key={pageNumber}
                         onClick={() => handlePageChange(pageNumber)}
                         className={`w-10 h-10 rounded-lg font-medium transition-colors ${currentPage === pageNumber
-                            ? 'bg-indigo-600 text-white shadow-lg'
-                            : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-indigo-50 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-700'
+                          ? 'bg-indigo-600 text-white shadow-lg'
+                          : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-indigo-50 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-700'
                           }`}
                       >
                         {pageNumber}
@@ -309,8 +312,8 @@ function ClientDashboard() {
                   onClick={() => handlePageChange(currentPage + 1)}
                   disabled={currentPage === totalPages}
                   className={`px-4 py-2 rounded-lg font-medium transition-colors ${currentPage === totalPages
-                      ? 'bg-gray-100 dark:bg-gray-800 text-gray-400 dark:text-gray-600 cursor-not-allowed'
-                      : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-indigo-50 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-700'
+                    ? 'bg-gray-100 dark:bg-gray-800 text-gray-400 dark:text-gray-600 cursor-not-allowed'
+                    : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-indigo-50 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-700'
                     }`}
                 >
                   Next
