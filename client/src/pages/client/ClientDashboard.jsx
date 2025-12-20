@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import api from '@/services/Api'
+import { toast } from 'react-toastify'
 
 function ClientDashboard() {
   const { id } = useParams()
@@ -10,6 +11,7 @@ function ClientDashboard() {
   })
   const [loading, setLoading] = useState(true)
   const [filter, setFilter] = useState('all')
+  const [openForm, setOpenForm] = useState(false)
   const [currentPage, setCurrentPage] = useState(1)
   const jobsPerPage = 3
 
@@ -27,6 +29,27 @@ function ClientDashboard() {
     }
     fetchJobs()
   }, [id])
+
+
+  const handleChange = (e) => {
+    setForm({
+      ...form, [e.target.name]: e.target.value
+    })
+  }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await api.post("/jobs/create", form)
+      setForm({ title: "", description: "", budget: "", deadline: "" })
+      toast.success("New Post Added")
+      setOpenForm(false)
+    } catch (error) {
+      console.error(error.message);
+    }
+  }
+
+
 
   const formatDate = (dateString) => {
     if (!dateString) return 'N/A'
@@ -116,11 +139,147 @@ function ClientDashboard() {
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 p-4 sm:p-6 lg:p-8">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-2">
-            My Jobs
-          </h1>
-          <p className="text-gray-600 dark:text-gray-400">Manage and track your posted jobs</p>
+        <div className='flex place-content-between'>
+          <div className="mb-8">
+            <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-2">
+              My Jobs
+            </h1>
+            <p className="text-gray-600 dark:text-gray-400">Manage and track your posted jobs</p>
+          </div>
+          <div>
+            <button onClick={() => setOpenForm(true)} className='p-2 cursor-pointer rounded-xl font-bold border-4 border-double bg-sky-500 hover:bg-sky-700 ..."'>Post New Job</button>
+            {openForm && (
+              <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+                <div className="bg-white dark:bg-gray-800 rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto shadow-2xl border border-gray-200 dark:border-gray-700">
+
+                  {/* Modal Header */}
+                  <div className="sticky top-0 bg-gradient-to-r from-indigo-600 to-purple-600 dark:from-indigo-700 dark:to-purple-700 px-6 py-4 rounded-t-2xl flex items-center justify-between">
+                    <h2 className="text-2xl font-bold text-white">Post New Job</h2>
+                    <button
+                      onClick={() => setOpenForm(false)}
+                      className="text-white hover:bg-white/20 rounded-lg p-2 transition-colors"
+                    >
+                      <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                    </button>
+                  </div>
+
+                  {/* Form Content */}
+                  <form onSubmit={handleSubmit} className="p-6 space-y-6">
+
+                    {/* Job Title */}
+                    <div>
+                      <label htmlFor="title" className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                        Job Title <span className="text-red-500">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        id="title"
+                        name='title'
+                        placeholder='e.g., Build a responsive website'
+                        onChange={handleChange}
+                        value={form.title}
+                        required
+                        className="w-full px-4 py-3 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 focus:border-transparent transition-all"
+                      />
+                    </div>
+
+                    {/* Job Description */}
+                    <div>
+                      <label htmlFor="description" className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                        Job Description <span className="text-red-500">*</span>
+                      </label>
+                      <textarea
+                        id="description"
+                        name="description"
+                        placeholder='Describe your project in detail...'
+                        value={form.description}
+                        onChange={handleChange}
+                        required
+                        rows="5"
+                        className="w-full px-4 py-3 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 focus:border-transparent transition-all resize-none"
+                      />
+                      <p className="mt-2 text-xs text-gray-500 dark:text-gray-400">
+                        Be specific about what you need to attract the right freelancers
+                      </p>
+                    </div>
+
+                    {/* Budget and Deadline Row */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+
+                      {/* Budget */}
+                      <div>
+                        <label htmlFor="budget" className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                          Budget ($) <span className="text-red-500">*</span>
+                        </label>
+                        <div className="relative">
+                          <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 dark:text-gray-400 font-medium">
+                            $
+                          </span>
+                          <input
+                            type="number"
+                            id="budget"
+                            name="budget"
+                            placeholder="1000"
+                            value={form.budget}
+                            onChange={handleChange}
+                            required
+                            min="0"
+                            className="w-full pl-8 pr-4 py-3 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 focus:border-transparent transition-all"
+                          />
+                        </div>
+                      </div>
+
+                      {/* Deadline */}
+                      <div>
+                        <label htmlFor="deadline" className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                          Deadline <span className="text-red-500">*</span>
+                        </label>
+                        <input
+                          type="date"
+                          id="deadline"
+                          name="deadline"
+                          value={form.deadline}
+                          onChange={handleChange}
+                          required
+                          className="w-full px-4 py-3 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 focus:border-transparent transition-all"
+                        />
+                      </div>
+                    </div>
+
+                    {/* Action Buttons */}
+                    <div className="flex flex-col sm:flex-row gap-3 pt-4">
+                      <button
+                        type="submit"
+                        disabled={loading}
+                        className="flex-1 px-6 py-3 bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-200 transform hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none disabled:hover:shadow-lg"
+                      >
+                        {loading ? (
+                          <span className="flex items-center justify-center">
+                            <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                            Posting...
+                          </span>
+                        ) : (
+                          "Post Job"
+                        )}
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setOpenForm(false)}
+                        className="flex-1 px-6 py-3 bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 font-semibold rounded-lg transition-all duration-200"
+                      >
+                        Cancel
+                      </button>
+                    </div>
+
+                  </form>
+                </div>
+              </div>
+            )}          </div>
         </div>
 
         {/* Stats Cards */}
